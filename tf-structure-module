@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# INPUT
+DIR_MODULE="$1"
+
+# DIRECTORY
+DIR="terraform-aws-"
+MODULES="modules"
+
+_DIR=$(pwd)
+
+# FILES
+README="README.md"
+MAIN="main.tf"
+OUTPUT="outputs.tf"
+VERSION="versions.tf"
+VARIABLES="variables.tf"
+
+function check_exists_dir() {
+    [[ -e $_DIR/${DIR}${DIR_MODULE}/${MODULES} ]]
+}
+
+function create_dir_module() {
+    mkdir -p ${DIR}${DIR_MODULE}/${MODULES}
+}
+
+function create_structure_module() {
+    # Create README.md
+    touch ${DIR}${DIR_MODULE}/${README}
+
+    # Create terraform files in root folder
+    touch ${DIR}${DIR_MODULE}/${MAIN} ${DIR}${DIR_MODULE}/${OUTPUT} ${DIR}${DIR_MODULE}/${VARIABLES} ${DIR}${DIR_MODULE}/${VERSION}
+
+    # Create module folder
+    mkdir -p ${DIR}${DIR_MODULE}/${MODULES}/${DIR_MODULE}
+
+    # Create terraform files in modules folder
+    touch ${DIR}${DIR_MODULE}/${MODULES}/${DIR_MODULE}/${README} ${DIR}${DIR_MODULE}/${MODULES}/${DIR_MODULE}/${MAIN} ${DIR}${DIR_MODULE}/${MODULES}/${DIR_MODULE}/${OUTPUT} ${DIR}${DIR_MODULE}/${MODULES}/${DIR_MODULE}/${VARIABLES}
+}
+
+function terraform_structure_module()
+{   
+
+    if check_exists_dir; then
+        echo "This directory already exists"
+    else
+        create_dir_module
+
+        if [[ -e $PWD/${DIR}${DIR_MODULE}/${MODULES} ]]; then
+            create_structure_module
+        fi
+
+    fi
+}
+
+terraform_structure_module
