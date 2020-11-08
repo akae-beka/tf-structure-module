@@ -1,41 +1,40 @@
 #!/bin/bash
 
-# INPUT
-DIR_MODULE="$1"
+# debug
+# set -xe
 
-# DIRECTORY
-DIR="terraform-aws-"
-MODULES="modules"
-
+# VARS
+PROVIDER="$1"
+MODULE_NAME="$2"
 _DIR=$(pwd)
-
-# FILES
+MODULES="modules"
 README="README.md"
 MAIN="main.tf"
 OUTPUT="outputs.tf"
 VERSION="versions.tf"
 VARIABLES="variables.tf"
 
+
 function check_exists_dir() {
-    [[ -e $_DIR/${DIR}${DIR_MODULE}/${MODULES} ]]
+    [[ -e $_DIR/terraform-${PROVIDER}-${MODULE_NAME}/${MODULES} ]]
 }
 
 function create_dir_module() {
-    mkdir -p ${DIR}${DIR_MODULE}/${MODULES}
+    mkdir -p terraform-${PROVIDER}-${MODULE_NAME}/${MODULES}
 }
 
 function create_structure_module() {
     # Create README.md
-    touch ${DIR}${DIR_MODULE}/${README}
+    touch terraform-${PROVIDER}-${MODULE_NAME}/${README}
 
     # Create terraform files in root folder
-    touch ${DIR}${DIR_MODULE}/${MAIN} ${DIR}${DIR_MODULE}/${OUTPUT} ${DIR}${DIR_MODULE}/${VARIABLES} ${DIR}${DIR_MODULE}/${VERSION}
+    touch terraform-${PROVIDER}-${MODULE_NAME}/${MAIN} terraform-${PROVIDER}-${MODULE_NAME}/${OUTPUT} terraform-${PROVIDER}-${MODULE_NAME}/${VARIABLES} terraform-${PROVIDER}-${MODULE_NAME}/${VERSION}
 
     # Create module folder
-    mkdir -p ${DIR}${DIR_MODULE}/${MODULES}/${DIR_MODULE}
+    mkdir -p terraform-${PROVIDER}-${MODULE_NAME}/${MODULES}/${MODULE_NAME}
 
     # Create terraform files in modules folder
-    touch ${DIR}${DIR_MODULE}/${MODULES}/${DIR_MODULE}/${README} ${DIR}${DIR_MODULE}/${MODULES}/${DIR_MODULE}/${MAIN} ${DIR}${DIR_MODULE}/${MODULES}/${DIR_MODULE}/${OUTPUT} ${DIR}${DIR_MODULE}/${MODULES}/${DIR_MODULE}/${VARIABLES}
+    touch terraform-${PROVIDER}-${MODULE_NAME}/${MODULES}/${MODULE_NAME}/${README} terraform-${PROVIDER}-${MODULE_NAME}/${MODULES}/${MODULE_NAME}/${MAIN} terraform-${PROVIDER}-${MODULE_NAME}/${MODULES}/${MODULE_NAME}/${OUTPUT} terraform-${PROVIDER}-${MODULE_NAME}/${MODULES}/${MODULE_NAME}/${VARIABLES}
 }
 
 function terraform_structure_module()
@@ -46,7 +45,7 @@ function terraform_structure_module()
     else
         create_dir_module
 
-        if [[ -e $PWD/${DIR}${DIR_MODULE}/${MODULES} ]]; then
+        if [[ -e $PWD/terraform-${PROVIDER}-${MODULE_NAME}/${MODULES} ]]; then
             create_structure_module
         fi
 
